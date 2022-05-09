@@ -8,15 +8,19 @@ import 'react-native-gesture-handler';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { signInWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../firebase";
+import {  db } from "../firebase";
+import { doc, getDoc } from 'firebase/firestore/lite';
 
 
 
 let balance = '100.000';
-let Username = 'Abdelrahman';
 
 // create a component
 const HomeScreen = ( {navigation} ) => {
   const [signIN, setsignIN] = useState(true);
+  const [N, setN] = useState(" ");
+  const [Bal, setBal] = useState(" ");
+
 
 
   const handleSignOut = () => {
@@ -28,6 +32,15 @@ const HomeScreen = ( {navigation} ) => {
   }
 
 
+  const docRef =doc(db, "Users", auth.currentUser.uid) ;
+  getDoc(docRef) .then ((doc) => {
+    setN(doc.get('name'));
+    setBal(doc.get('balance'));
+
+  })
+  .catch(() => console("NO doc")) 
+
+
 
 
 
@@ -36,7 +49,7 @@ const HomeScreen = ( {navigation} ) => {
       <View style={ styles.headerView }>
       <Text style = { {marginLeft : 10,marginTop : 10, fontSize : 18
          ,fontSize: 18, fontStyle: 'italic', color: 'rgb(0,0,0)', 
-         fontWeight: 'normal',} }>Welcome :  {Username}</Text>
+         fontWeight: 'normal',} }>Welcome :  {N}</Text>
       <TouchableOpacity  
         onPress={handleSignOut}
         style={styles.logOut_btn}>
@@ -57,7 +70,7 @@ const HomeScreen = ( {navigation} ) => {
             fontSize: 50, fontStyle: 'italic', color: 'rgb(0,0,0)', fontWeight: 'normal',
             fontFamily: 'serif', marginLeft: 5, marginTop: 5,
           }}>
-          {balance}</Text>
+          {Bal} $</Text>
       </View>
 
       <View style={{ flexDirection: 'row', }}>

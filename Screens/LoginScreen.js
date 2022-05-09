@@ -1,7 +1,6 @@
 import { useState ,useEffect } from "react";
-import { StyleSheet, Text, TouchableOpacity, View, Button, TextInput, Image, } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View, TextInput, } from "react-native";
 import { StatusBar } from 'expo-status-bar';
-import { useNavigation } from '@react-navigation/core'
 import { auth } from "../firebase";
 import { signInWithEmailAndPassword ,onAuthStateChanged  } from "firebase/auth";
 

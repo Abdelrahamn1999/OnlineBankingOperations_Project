@@ -2,7 +2,7 @@ import React, { useEffect , useState } from 'react';
 import { View, Text, StyleSheet , Button } from 'react-native';
 import 'react-native-gesture-handler';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
