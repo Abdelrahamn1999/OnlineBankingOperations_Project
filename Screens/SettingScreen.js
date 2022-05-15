@@ -7,7 +7,7 @@ import { RadioButton ,Switch } from 'react-native-paper';
 
 const SetttingScreen = ({ navigation }) => {
 
-    const [value, setValue] = React.useState('english');
+    const [value, setValue] = React.useState('500');
 
 
     const [isSwitchOn, setIsSwitchOn] = React.useState(false);
@@ -36,14 +36,20 @@ const SetttingScreen = ({ navigation }) => {
             <View style={styles.inputview2}>
                 <RadioButton.Group onValueChange={newValue => setValue(newValue)} value={value}>
                     <View style={{ flexDirection: 'row-reverse', alignItems: "center" , }}>
-                        <Text style={{paddingLeft: 5, fontSize: 18, }}>English</Text>
-                        <RadioButton value="english" 
+                        <Text style={{paddingLeft: 5, fontSize: 18, }}>500 $</Text>
+                        <RadioButton value="500" 
                         color="rgb(125,175,255)"/>
                     </View>
      
                     <View style={{ flexDirection: 'row-reverse', alignItems: "center" }}>
-                    <Text style={{paddingLeft: 11, fontSize: 18, }}>Arabic</Text>
-                        <RadioButton value="arabic" 
+                    <Text style={{paddingLeft: 11, fontSize: 18, }}>1000 $</Text>
+                        <RadioButton value="1000" 
+                        color="rgb(125,175,255)"/>
+                    </View>
+
+                    <View style={{ flexDirection: 'row-reverse', alignItems: "center" }}>
+                    <Text style={{paddingLeft: 11, fontSize: 18, }}>1500 $</Text>
+                        <RadioButton value="1500" 
                         color="rgb(125,175,255)"/>
                     </View>
 

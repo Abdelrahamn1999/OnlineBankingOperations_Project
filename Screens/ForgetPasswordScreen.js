@@ -1,42 +1,75 @@
 import { useState ,useEffect } from "react";
-import { StyleSheet, Text, TouchableOpacity, View, TextInput, } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View, TextInput,Alert } from "react-native";
 import { StatusBar } from 'expo-status-bar';
-import { auth } from "../firebase";
-import { signInWithEmailAndPassword ,onAuthStateChanged ,sendPasswordResetEmail  } from "firebase/auth";
+import { auth ,db } from "../firebase";
+import { sendPasswordResetEmail  } from "firebase/auth";
+import { collection, query, where, getDocs,writeBatch } from 'firebase/firestore/lite';
 
 
 
 
-const LoginScreen = ( {navigation} ) => {
-    const [eamil, setemail] = useState("");
-    const [password, setpassword] = useState("");
+
+
+
+const ForgetPasswordScreen = ( {navigation} ) => {
+
+    const [accNumber, setaccNumber] = useState("");
+    const [accNumberValid, setaccNumberValid] = useState("0000");
+
+    const [Email, setEmail] = useState("");
+
+    const [securityNumber, setsecurityNumber] = useState("");
+    const [securityNumberValid, setsecurityNumberValid] = useState("0000");
+
+    
+
+    const userRef = collection(db, "Users");
+    const q = query(userRef, where("accountNumber", "==", accNumberValid));
+    getDocs(q).then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            setaccNumber(doc.get('accountNumber'));
+            setsecurityNumber(doc.get('securityNumber'));
+            setEmail(doc.get('email'));
+              });
+    }).catch(() => console("Invaliiiiid"))
    
 
-
-
-    const handleSignIn = () => {
-       signInWithEmailAndPassword(auth ,eamil, password)
-            .then( (userCredential) => {
-                const user = userCredential.user;
-            })
-            .catch( () => alert("Invalid email or password"))
-    }
-
-
-    // const handlepasswordforgotten = (email) => {
-    //     sendPasswordResetEmail(auth ,email);
-    //     navigation.navigate("ForgetPasswordScreen")
-    //  }
+    const handlepasswordforgotten = (email) => {
+        sendPasswordResetEmail(auth ,email);
+     }
      
 
-    useEffect(() => {
-      onAuthStateChanged(auth ,user => {
-            if (user) {
-                navigation.replace("NavigationBAr");
-            }
-        })
+     const Verfication = () => {
+        if (accNumberValid != accNumber) {
+            Alert.alert('Warning', "Invalid account number", [
+                { text: 'ok' }
+            ]);
+        }
 
-    }, [])
+       else if (securityNumberValid != securityNumber) {
+            Alert.alert('Warning', "Invalid security key", [
+                { text: 'ok' }
+            ]);
+        }
+
+       else {
+            Alert.alert('Done ', 'open your mail to reset the password', [
+                { text: 'done' }
+            ]);
+
+            sendPasswordResetEmail(
+                auth, Email)
+                .then(()=> {
+                  console.log("Email has been sent")
+                })
+                .catch((error)=> {
+                    console.log("Error sending" ,error.text)
+                });
+
+                }
+
+
+    }
 
 
     return (
@@ -46,37 +79,31 @@ const LoginScreen = ( {navigation} ) => {
             <View style={styles.inputview1}>
                 <TextInput
                     style={styles.textinput}
-                    placeholder="Enter Your Email"
+                    placeholder="Enter Your Account number"
                     placeholderTextColor="rgba(0,0,0,0.5)"
                     type="Text"
-                    onChangeText={(text) => setemail(text)}
-                    value={eamil}
+                    onChangeText={(text) => setaccNumberValid(text)}
                 />
             </View>
 
             <View style={styles.inputview1}>
                 <TextInput
                     style={styles.textinput}
-                    placeholder="Enter Your Password"
+                    placeholder="Enter Your Security Code "
                     placeholderTextColor="rgba(0,0,0,0.5)"
                     type="password"
                     secureTextEntry={true}
-                    onChangeText={(pass) => setpassword(pass)}
-                    value={password}
+                    onChangeText={(pass) => setsecurityNumberValid(pass)}
                 />
             </View>
 
 
-            <TouchableOpacity
-                     onPress={ () => navigation.navigate("ForgetPasswordScreen")}>
-                     <Text style={styles.forgetpassowrd}>Forget my password ?! </Text>
-            </TouchableOpacity>
 
             <View style={{ flex: 1, justifyContent: 'flex-start', marginHorizontal: '15%', marginTop: 80 }}>
        <TouchableOpacity
-            onPress={handleSignIn}
+            onPress={Verfication}
             style={styles.btn}>
-            <Text style={styles.btnText} >Login</Text> 
+            <Text style={styles.btnText} >Send mail</Text> 
         </TouchableOpacity>
             </View>
         </View>
@@ -164,4 +191,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default LoginScreen;
+export default ForgetPasswordScreen;

@@ -76,7 +76,7 @@ const HomeScreen = ( {navigation} ) => {
       <View style={{ flexDirection: 'row', }}>
         <View style={styles.component_parts}>
           <TouchableOpacity
-            onPress={() => alert('Sending money')}>
+            onPress={() => navigation.navigate("SendMoneyScreen")}>
             <Image source={require('../assets/mobile-money-transfer.png')}
               style={{ marginTop: 25, marginHorizontal: '20%', width: '56%', height: '56%', }} />
             <Text
@@ -87,7 +87,7 @@ const HomeScreen = ( {navigation} ) => {
 
         <View style={styles.component_parts}>
           <TouchableOpacity
-            onPress={() => alert('requesting money')}>
+            onPress={() =>  navigation.navigate("RequestMoneyScreen")}>
             <Image source={require('../assets/hand-money-income-note.png')}
               style={{ marginTop: 20, marginHorizontal: '10%', width: '80%', height: '50%', }} />
             <Text
@@ -100,7 +100,7 @@ const HomeScreen = ( {navigation} ) => {
       <View style={{ flexDirection: 'row', }}>
         <View style={styles.component_parts}>
           <TouchableOpacity
-            onPress={() => alert('Investment Certificates')}>
+            onPress={() => navigation.navigate("InvestmentCertificateScreen")} >
             <Image source={require('../assets/legal-contract-paper.png')}
               style={{ marginTop: 20, marginHorizontal: '17%', width: '66%', height: '50%', }} />
             <Text
@@ -137,6 +137,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
     backgroundColor: 'rgba(0,0,0,0)',
+    
   },
 
   balance_part: {

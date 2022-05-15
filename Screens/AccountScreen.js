@@ -40,7 +40,7 @@ const AccountScreen = ({ navigation }) => {
       let ID = auth.currentUser?.uid ; 
       const docRef =doc(db, "Users", ID.toString() ) ;
       getDoc(docRef) .then ((doc) => {
-        console.log(" document data:", doc.data() ,"......", doc.get('name') , '........',typeof(ID) ,typeof(ID.toString()) ,ID.toString() );
+    //    console.log(" document data:", doc.data() ,"......", doc.get('name') , '........',typeof(ID) ,typeof(ID.toString()) ,ID.toString() );
         setN(doc.get('name'));
         setP(doc.get('phone'));
         setAccN(doc.get('accountNumber'));

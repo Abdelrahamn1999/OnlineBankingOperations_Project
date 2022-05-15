@@ -11,7 +11,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 //Screen names
 const homeName = "Home";
 const detailsName = "Details";
-const settingsName = "Settings";
+// const settingsName = "Settings";
 const accountname = "Acocunt";
 
 const Tab = createBottomTabNavigator();
@@ -45,14 +45,14 @@ function DetailsScreenStack() {
   );
 }
 
-function SettingScreenStack() {
-  return (
-    <Stack.Navigator
-      screenOptions={{ headerShown: false }}>
-      <Stack.Screen name='SettingScreen' component={SettingScreen} />
-    </Stack.Navigator>
-  );
-}
+// function SettingScreenStack() {
+//   return (
+//     <Stack.Navigator
+//       screenOptions={{ headerShown: false }}>
+//       <Stack.Screen name='SettingScreen' component={SettingScreen} />
+//     </Stack.Navigator>
+//   );
+// }
 
 
 function NavigationBAr() {
@@ -84,8 +84,8 @@ function NavigationBAr() {
             } else if (rn === detailsName) {
               iconName = focused ? 'alert-circle' : 'alert-circle-outline';
 
-            } else if (rn === settingsName) {
-              iconName = focused ? 'settings' : 'settings-outline';
+            // } else if (rn === settingsName) {
+            //   iconName = focused ? 'settings' : 'settings-outline';
 
             } else if (rn === accountname) {
               iconName = focused ? 'person' : 'person-outline';
@@ -112,8 +112,8 @@ function NavigationBAr() {
             } else if (rn === detailsName) {
               iconName = focused ? 'alert-circle' : 'alert-circle-outline';
 
-            } else if (rn === settingsName) {
-              iconName = focused ? 'settings' : 'settings-outline';
+            // } else if (rn === settingsName) {
+            //   iconName = focused ? 'settings' : 'settings-outline';
 
             } else if (rn === accountname) {
               iconName = focused ? 'person' : 'person-outline';
@@ -139,8 +139,8 @@ function NavigationBAr() {
             } else if (rn === detailsName) {
               iconName = focused ? 'alert-circle' : 'alert-circle-outline';
 
-            } else if (rn === settingsName) {
-              iconName = focused ? 'settings' : 'settings-outline';
+            // } else if (rn === settingsName) {
+            //   iconName = focused ? 'settings' : 'settings-outline';
 
             } else if (rn === accountname) {
               iconName = focused ? 'person' : 'person-outline';
@@ -154,7 +154,7 @@ function NavigationBAr() {
         })
         } />
         
-      <Tab.Screen name={settingsName} component={SettingScreenStack}
+      {/* <Tab.Screen name={settingsName} component={SettingScreenStack}
         options={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
@@ -179,7 +179,7 @@ function NavigationBAr() {
 
 
         })
-        } />
+        } /> */}
 
     </Tab.Navigator>
   );

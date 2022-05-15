@@ -1,12 +1,12 @@
-import React, { Component,useCallback } from 'react';
-import {  StyleSheet, View, Linking,Button,Text, Image, TouchableOpacity } from 'react-native';
+import React, { Component, useCallback } from 'react';
+import { StyleSheet, View, Linking, Button, Text, Image, TouchableOpacity } from 'react-native';
 import LottieView from 'lottie-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 
 
 
-export default class SplashScreen extends Component  {
+export default class SplashScreen extends Component {
 
   constructor() {
     super();
@@ -27,7 +27,7 @@ export default class SplashScreen extends Component  {
     }, 1300);
   }
 
-  
+
 
   render() {
     let Splash_Screen = (
@@ -45,25 +45,25 @@ export default class SplashScreen extends Component  {
         <View style={{ flex: 1, justifyContent: 'flex-end', paddingBottom: 50, }}>
           <TouchableOpacity
             style={styles.btn}
-            onPress={() =>  this.props.navigation.navigate("LoginScreen") }>
+            onPress={() => this.props.navigation.navigate("LoginScreen")}>
             <Text style={styles.btnText} >Login</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.btn}
-            onPress={() => this.props.navigation.navigate("DetailsScreen") }>
+            onPress={() => this.props.navigation.navigate("DetailsScreen")}>
             <Text style={styles.btnText} > Details on Us</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.btn}
-            onPress={ ()=>{ Linking.openURL('https://google.com')}} >
+            onPress={() => { Linking.openURL('https://google.com') }} >
             <Text style={styles.btnText} > FAQ's</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.btn}
-            onPress={() => this.props.navigation.navigate("SettingScreen") }>
+            onPress={() => this.props.navigation.navigate("SettingScreen")}>
             <Text style={styles.btnText} > Settings</Text>
           </TouchableOpacity>
 
@@ -98,13 +98,13 @@ const styles = StyleSheet.create({
   },
 
   Imagebackgrounds: {
-    marginTop : 30, 
-    height : 270,
-    width:'75%',
-    borderBottomLeftRadius : 40,
-    borderBottomRightRadius : 40,     
-      
-          },
+    marginTop: 30,
+    height: 270,
+    width: '75%',
+    borderBottomLeftRadius: 40,
+    borderBottomRightRadius: 40,
+
+  },
   btnText: {
     color: 'black',
     fontSize: 18,
@@ -117,14 +117,14 @@ const styles = StyleSheet.create({
   btn: {
     backgroundColor: 'rgba(0,0,0,0)',
     marginHorizontal: 20,
-    marginBottom :40 ,
+    marginBottom: 40,
     height: 60,
     width: 300,
     justifyContent: 'flex-start',
     alignItems: 'center',
     borderRadius: 40,
-    borderBottomWidth : 3,
-    borderBottomColor : 'black',
+    borderBottomWidth: 3,
+    borderBottomColor: 'black',
 
 
   },
