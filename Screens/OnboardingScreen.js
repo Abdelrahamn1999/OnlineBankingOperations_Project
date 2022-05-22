@@ -38,11 +38,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0)',
+    backgroundColor: 'white',
   },
   title: {
     marginTop: 60,
-    color: 'rgba(0,0,0,0.8)',
+    color: '#E45826',
     fontSize: 32,
     fontFamily: 'sans-serif-condensed',
     fontStyle: 'italic',
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
   paragraph: {
     marginTop: 50,
     marginHorizontal: 10,
-    color: 'rgba(0,0,0,0.5)',
+    color: '#E45826',
     fontSize: 23,
     fontFamily: 'sans-serif',
     textAlign: 'center',
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 80,
   },
   btnText: {
-    color: 'white',
+    color: '#E6D5B8',
     fontSize: 18,
     fontFamily: 'sans-serif',
     textAlign: 'center',
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
 
   },
   btn: {
-    backgroundColor: 'black',
+    backgroundColor: '#1B1A17',
     marginHorizontal: 20,
     height: 60,
     width: 250,

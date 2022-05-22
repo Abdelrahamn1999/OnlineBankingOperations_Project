@@ -12,16 +12,17 @@ import { StatusBar } from 'expo-status-bar';
 import emailjs from '@emailjs/browser';
 
 import { useState } from "react";
+import { ScrollView } from 'react-native-gesture-handler';
 
 // create a component
-const RequestMoneyScreen = ({ navigation }) => {
+const LoanScreen = ({ navigation }) => {
 
     //     const batch = writeBatch(db);
 
     const [accNumber, setaccNumber] = useState("");
     const [Name, setName] = useState("");
     const [Email, setEmail] = useState("");
-    const [AdminEmail, setAdminEmail] = useState("");
+    const [accNumberValid, setaccNumberValid] = useState("");
 
     const [reciverAccountNumber, setreciverAccountNumber] = useState("");
     const [reciverAccountNumberValid, setreciverAccountNumberValid] = useState("");
@@ -41,7 +42,7 @@ const RequestMoneyScreen = ({ navigation }) => {
     let hour = new Date().getHours();
     let minute = new Date().getMinutes();
     let second = new Date().getSeconds();
-    let transactionName = "RequestingMoney";
+    let transactionName = "Loan";
 
 
 
@@ -62,30 +63,15 @@ const RequestMoneyScreen = ({ navigation }) => {
     getDocs(q1).then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
             setAdminID(doc.id)
-            setAdminEmail(doc.get("email"))
+            setreciverEmail(doc.get('email'));
+            setreciverName(doc.get('name'));
         });
     }).catch(() => console("Invaliiiiid"))
 
 
-
-
-    const userRef = collection(db, "Users");
-    const q = query(userRef, where("accountNumber", "==", reciverAccountNumberValid));
-    getDocs(q).then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-            setreciverAccountNumber(doc.get('accountNumber'));
-            setreciverName(doc.get('name'));
-            setreciverEmail(doc.get('email'));
-            });
-    }).catch(() => console("Invaliiiiid"))
-
-
-
-
-
     let templateParams = {
         reciverEmailform:reciverEmail,
-        nameform:Name,
+        from_name : Name,
         reciverNameform:reciverName,
         messageform : message,
         accNumform:accNumber,
@@ -95,26 +81,6 @@ const RequestMoneyScreen = ({ navigation }) => {
     const sendEmail = (e) => {
         e.preventDefault();
         
-         if (reciverAccountNumberValid != reciverAccountNumber) {
-            Alert.alert('Warning', "Wrong reciver account number", [
-                { text: 'ok' }
-            ]);
-        }
-
-
-        else if (message == null) {
-            Alert.alert('Alert', "Please write a description of your request", [
-                { text: 'ok' }
-            ]);
-        }
-
-        else if (parseInt(amount) >= 50000 && parseInt(amount) < 0) {
-            Alert.alert('Warning : wrong amount', "The amount should be betwwen 1 to 50k", [
-                { text: 'ok' }
-            ]);
-        }
-
-        else {
             Alert.alert('Successful operation ', '', [
                 { text: 'done' }
             ]);
@@ -123,7 +89,7 @@ const RequestMoneyScreen = ({ navigation }) => {
                 Date: date + "/" + month + "/ " + year,
                 Clock: hour + ":" + minute + ": " + second,
                 TransactionName: transactionName,
-                To: reciverEmail,
+                To: "Admin",
                 Amount: amount,
                 From: Email,
                 ToAccountNumber: reciverAccountNumber,
@@ -131,17 +97,17 @@ const RequestMoneyScreen = ({ navigation }) => {
             });
 
 
-            emailjs.send('service_l8re8bz', 'template_6ypel4m', templateParams, 'd1xTb_weRsbxDVl2x')
+            emailjs.send('service_elou417', 'template_vponx4j', templateParams, '0sr466cufLbI8qQrQ')
             .then((result) => {
                 console.log("Successful ", result.text);
             }, (error) => {
                 console.log("Failed ", error.text);
             });
-        }
+       
 
 
-        console.log("name = ", templateParams.nameform, 'mess : ', templateParams.messageform, " recname = ", templateParams.reciverNameform, "recEmail = ", templateParams.reciverEmailform);
-        console.log(" recname = ", reciverName, "recaccN = ", reciverAccountNumber);
+        // console.log("name = ", templateParams.nameform, 'mess : ', templateParams.messageform, " recname = ", templateParams.reciverNameform, "recEmail = ", templateParams.reciverEmailform);
+        // console.log(" recname = ", reciverName, "recaccN = ", reciverAccountNumber);
 
        navigation.replace("NavigationBAr");
     }
@@ -156,29 +122,35 @@ const RequestMoneyScreen = ({ navigation }) => {
                 style={styles.Imagebackgrounds}
             />
 
+  <ScrollView>
+  <View style={styles.inputview0}>
+                <Text style={styles.txt}>Name: </Text>
+                <Text
+                    style={{
+                        fontSize: 20,  fontStyle: 'italic', color: 'rgba(0,0,0,0.7)', fontWeight: 'normal',
+                        fontFamily: 'serif', marginLeft: 10, marginTop: 5,
+                    }}>{Name} </Text>
+            </View>
+
             <View style={styles.inputview0}>
                 <Text style={styles.txt}>Accounbt number : </Text>
                 <Text
                     style={{
-                        fontSize: 28, fontStyle: 'italic', color: 'rgba(0,0,0,0.7)', fontWeight: 'normal',
+                        fontSize: 20, fontStyle: 'italic', color: 'rgba(0,0,0,0.7)', fontWeight: 'normal',
                         fontFamily: 'serif', marginLeft: 10, marginTop: 5,
                     }}>{accNumber} </Text>
             </View>
 
-            <View style={styles.inputview1}>
-                <TextInput
-                    style={styles.textinput}
-                    placeholder="Enter the reciver Account number"
-                    placeholderTextColor="rgba(0,0,0,0.3)"
-                    type="numeric"
-                    keyboardType='numeric'
-                    onChangeText={(text) => {
-                        setreciverAccountNumberValid(text);
-                    }}
-
-                />
+            <View style={styles.inputview0}>
+                <Text style={styles.txt}>Email : </Text>
+                <Text
+                    style={{
+                        fontSize: 20, fontStyle: 'italic', color: 'rgba(0,0,0,0.7)', fontWeight: 'normal',
+                        fontFamily: 'serif', marginLeft: 10, marginTop: 5,
+                    }}>{Email} </Text>
             </View>
 
+            
             <View style={styles.inputview1}>
                 <TextInput
                     style={styles.textinput}
@@ -204,12 +176,16 @@ const RequestMoneyScreen = ({ navigation }) => {
                 />
             </View>
 
-            <TouchableOpacity
+
+  </ScrollView>
+  <TouchableOpacity
                 style={styles.btn}
                 onPress={sendEmail} >
                 <Text style={styles.btnText} > Send a requset </Text>
-                <Ionicons name={'send-outline'} size={20} color={'#E6D5B8'} />
-            </TouchableOpacity></View>
+                <Ionicons name={'send-outline'} size={20} color={'white'} />
+            </TouchableOpacity>
+            
+            </View>
 
 
 
@@ -228,14 +204,13 @@ const styles = StyleSheet.create({
     inputview0: {
         flexDirection: 'row',
         backgroundColor: '#E6D5B8',
-        marginHorizontal: '10%',
+        marginHorizontal: '6%',
         marginVertical: 30,
+        paddingTop : 10,
         marginBottom: 10,
         height: 60,
-        width: '80%',
-        justifyContent: 'center',
-        alignItems: 'center',
-  
+        width: '90%',
+       
     },
     inputview1: {
         backgroundColor: 'rgba(0,0,0,0)',
@@ -251,7 +226,7 @@ const styles = StyleSheet.create({
     },
 
     inputview2: {
-        marginTop: 20,
+        marginTop: 60,
         backgroundColor: 'rgba(0,0,0,0)',
         height: 150,
         marginLeft: 30,
@@ -288,7 +263,7 @@ const styles = StyleSheet.create({
     },
 
     btnText: {
-        color: '#E6D5B8',
+        color: 'white',
         fontSize: 18,
         fontFamily: 'sans-serif',
         textAlign: 'center',
@@ -298,8 +273,9 @@ const styles = StyleSheet.create({
         paddingTop: 18,
         flexDirection: 'row',
         marginTop: 20,
+        marginBottom:40,
         marginLeft: 90,
-        backgroundColor: '#1B1A17',
+        backgroundColor: 'black',
         height: 58,
         width: '50%',
         justifyContent: 'center',
@@ -308,25 +284,35 @@ const styles = StyleSheet.create({
     },
     Imagebackgrounds: {
         marginTop: 5,
+        marginBottom : 20,
         marginHorizontal: '35%',
         height: 175,
         width: 175,
     },
 
+    balance_part: {
+        flexDirection: 'row',
+        marginTop: 30,
+        width: '80%',
+        height: 60,
+        backgroundColor: 'rgba(0,0,0,0.15)',
+        marginHorizontal: '10%',
+        borderRadius: 10,
 
+    },
 
     txt: {
-        fontSize: 20,
+        fontSize:15,
         fontStyle: 'italic',
         color: '#F0A500',
         fontWeight: 'normal',
         fontFamily: 'serif',
         marginLeft: 10,
-        marginTop: 15,
+        marginTop: 10,
         marginBottom: 7,
     },
 
 });
 
 //make this component available to the app
-export default RequestMoneyScreen;
+export default LoanScreen;

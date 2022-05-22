@@ -1,14 +1,14 @@
 //import liraries
 import React, { Component } from 'react';
-import { useState ,useEffect } from "react";
+import { useState, useEffect } from "react";
 
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import 'react-native-gesture-handler';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { signInWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../firebase";
-import {  db } from "../firebase";
+import { db } from "../firebase";
 import { doc, getDoc } from 'firebase/firestore/lite';
 
 
@@ -16,7 +16,7 @@ import { doc, getDoc } from 'firebase/firestore/lite';
 let balance = '100.000';
 
 // create a component
-const HomeScreen = ( {navigation} ) => {
+const HomeScreen = ({ navigation }) => {
   const [signIN, setsignIN] = useState(true);
   const [N, setN] = useState(" ");
   const [Bal, setBal] = useState(" ");
@@ -32,13 +32,13 @@ const HomeScreen = ( {navigation} ) => {
   }
 
 
-  const docRef =doc(db, "Users", auth.currentUser.uid) ;
-  getDoc(docRef) .then ((doc) => {
+  let ID = auth.currentUser?.uid;
+  const docRef = doc(db, "Users", ID.toString());
+  getDoc(docRef).then((doc) => {
     setN(doc.get('name'));
     setBal(doc.get('balance'));
-
   })
-  .catch(() => console("NO doc")) 
+    .catch(() => { console.log("NO doc") })
 
 
 
@@ -46,16 +46,26 @@ const HomeScreen = ( {navigation} ) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={ styles.headerView }>
-      <Text style = { {marginLeft : 10,marginTop : 10, fontSize : 18
-         ,fontSize: 18, fontStyle: 'italic', color: 'rgb(0,0,0)', 
-         fontWeight: 'normal',} }>Welcome :  {N}</Text>
-      <TouchableOpacity  
+      <TouchableOpacity 
         onPress={handleSignOut}
         style={styles.logOut_btn}>
-        <Text style = { { color : 'rgb(238,238,238)' ,  } }>Log Out</Text>
+        <Text style={{ color: '#E6D5B8', }}>Log Out</Text>
       </TouchableOpacity>
+
+      <View style={styles.headerView}>
+        <Text style={{
+          marginLeft: 10, marginTop: 10, fontSize: 18
+          , fontSize: 18, fontStyle: 'italic', color: '#E6D5B8',
+          fontWeight: 'normal',
+        }}>Welcome :
+          <Text style={{ fontSize: 20, fontStyle: 'italic', color: '#E6D5B8', fontWeight: 'bold', }}>
+            {N} </Text></Text>
+
       </View>
+
+      <ScrollView style={ {marginBottom : 25,} }>
+      
+     
 
       <View style={styles.balance_part}>
         <Text
@@ -87,7 +97,7 @@ const HomeScreen = ( {navigation} ) => {
 
         <View style={styles.component_parts}>
           <TouchableOpacity
-            onPress={() =>  navigation.navigate("RequestMoneyScreen")}>
+            onPress={() => navigation.navigate("RequestMoneyScreen")}>
             <Image source={require('../assets/hand-money-income-note.png')}
               style={{ marginTop: 20, marginHorizontal: '10%', width: '80%', height: '50%', }} />
             <Text
@@ -111,20 +121,19 @@ const HomeScreen = ( {navigation} ) => {
 
         <View style={styles.component_parts}>
           <TouchableOpacity
-            onPress={() => alert('Pay Bills')}>
+            onPress={() => navigation.navigate("LoanScreen")}>
             <Image source={require('../assets/mobile-phone-bill-paid.png')}
-              style={{ marginTop: 25, marginHorizontal: '5%', width: '90%', height: '55%', }} />
+              style={{ marginTop: 22, marginHorizontal: '16%', width: '70%', height: '50%', }} />
             <Text
               style={styles.buttonText}>
-              Pay Bills</Text>
+              Requesting a loan</Text>
           </TouchableOpacity>
         </View>
 
       </View>
 
 
-
-
+      </ScrollView>
 
     </SafeAreaView>
   );
@@ -136,14 +145,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
-    backgroundColor: 'rgba(0,0,0,0)',
-    
+    backgroundColor: 'white',
+
   },
 
   balance_part: {
     width: '90%',
     height: 130,
-    backgroundColor: 'rgba(0,0,0,0.15)',
+    backgroundColor: '#F0A500',
     marginHorizontal: '5%',
     borderRadius: 10,
   },
@@ -152,21 +161,21 @@ const styles = StyleSheet.create({
     marginTop: 30,
     width: '42%',
     height: 180,
-    backgroundColor: 'rgba(0,0,0,0.15)',
+    backgroundColor: '#F0A500',
     marginHorizontal: '4%',
     borderRadius: 30,
     alignItems: 'center',
   },
 
   logOut_btn: {
-    width: 100,
-    height: 30,
-    backgroundColor : 'rgba(0,0,0,0.24)',
-    alignItems : 'center',
-    justifyContent :'center',
-    borderRadius : 10,
-    marginLeft : 37,
-    marginTop : 10,
+    width: 120,
+    height: 50,
+    backgroundColor: '#1B1A17',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 10,
+    marginLeft: '65%',
+    marginBottom: 30,
   },
 
   buttonText: {
@@ -181,12 +190,12 @@ const styles = StyleSheet.create({
 
   headerView: {
     width: '90%',
-    flexDirection : 'row',
-    backgroundColor : 'lightgray',
-    marginBottom : 30,
-    borderRadius : 10,
+    flexDirection: 'row',
+    backgroundColor: '#E45826',
+    marginBottom: 30,
+    borderRadius: 10,
     marginHorizontal: '5%',
-    height : 50,
+    height: 50,
   }
 
 });

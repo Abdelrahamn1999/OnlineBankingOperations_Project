@@ -1,72 +1,90 @@
-import React from "react";
-import { StyleSheet, Text, TouchableOpacity, View, Button, TextInput, Image, } from "react-native";
+import { useState, useEffect } from "react";
+import { StyleSheet, Text, TouchableOpacity, View, TextInput, Alert, ScrollView } from "react-native";
 import { StatusBar } from 'expo-status-bar';
-import { ScrollView } from "react-native-gesture-handler";
-import {  auth, db } from "../firebase";
-import { doc, getDoc } from 'firebase/firestore/lite';
-import { useState } from "react";
+import { auth, db } from "../firebase";
+import { sendPasswordResetEmail } from "firebase/auth";
+import { getDoc, doc, getDocs, collection, query, where,deleteField } from 'firebase/firestore/lite';
+import { setDisabled } from "react-native/Libraries/LogBox/Data/LogBoxData";
 
 
 
 
-// let balance = '';
-// let n = " ";
-// let email = '';
-// let address = '';
-// let gender = '';
-// let accountNumber = '';
-// let phone = '';
+const ItemControl = ({ navigation }) => {
 
+    const [CurrentUserID, setCurrentUserID] = useState("");
 
-
-
-
-const AccountScreen = ({ navigation }) => {
-
-    const [N, setN] = useState(" ");
+    const [N, setN] = useState("");
     const [P, setP] = useState(" ");
     const [E, setE] = useState(" ");
     const [Addr, setAddr] = useState(" ");
     const [G, setG] = useState(" ");
     const [AccN, setAccN] = useState(" ");
     const [Bal, setBal] = useState(" ");
-    
-    
-
-    const handlename = (v) => {
-        setN(v);
-      };
-
-      let ID = auth.currentUser?.uid ; 
-      const docRef =doc(db, "Users", ID.toString() ) ;
-      getDoc(docRef) .then ((doc) => {
-    //    console.log(" document data:", doc.data() ,"......", doc.get('name') , '........',typeof(ID) ,typeof(ID.toString()) ,ID.toString() );
-        setN(doc.get('name'));
-        setP(doc.get('phone'));
-        setAccN(doc.get('accountNumber'));
-        setE(doc.get('email'));
-        setG(doc.get('gender'));
-        setBal(doc.get('balance'));
-        setAddr(doc.get('address'));
-      })
-      .catch(() => console("NO doc")) 
-
-    //   const {
-    //       accountNumber,
-    //       address,
-    //       balance,
-    //       email,
-    //       gender,
-    //       name,
-    //       phone            
-    //     } = docSnap.data();
-
-        
-    //      console.log("name :", name);
-    // //       handlename();
+    const [IDuser, setIDuser] = useState(" ");
 
 
-   
+
+    let ID = auth.currentUser?.uid;
+    const docRef = doc(db, "Admin", ID.toString());
+    getDoc(docRef).then((doc) => {
+        setCurrentUserID(doc.get('currentUserControlID'));
+        //  console.log('---> ',CurrentUserID ,typeof(CurrentUserID));
+    })
+        .catch(() => console("NO Admin doc"));
+
+
+
+    const userRef = collection(db, "Users");
+    const q = query(userRef, where("securityNumber", "==", CurrentUserID));
+    getDocs(q).then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            setN(doc.get('name'));
+            setP(doc.get('phone'));
+            setAccN(doc.get('accountNumber'));
+            setE(doc.get('email'));
+            setG(doc.get('gender'));
+            setBal(doc.get('balance'));
+            setAddr(doc.get('address'));
+            setIDuser(doc.id);
+        });
+    }).catch(() => console("Invaliiiiid"))
+
+
+
+
+// const DeleteF=()=>{
+//     updateDoc(doc(db, "Users", IDuser), {
+//         name : deleteField(),
+//         accountNumber : deleteField(),
+//         address: deleteField(),
+//         balance: deleteField(),
+//         email: deleteField(),
+//         gender: deleteField(),
+//         phone: deleteField(),
+//         securityNumber: deleteField(),
+//       });
+//       alert("User banned");
+// }
+
+    const BanUser = () => {
+        Alert.alert('Warning : Ban User', `Are you sure you want to ban ${N}`, [
+            { text: 'Yes' , onPress : () =>{     
+                 updateDoc(doc(db, "Users", IDuser), {
+                    name : deleteField(),
+                    accountNumber : deleteField(),
+                    address: deleteField(),
+                    balance: deleteField(),
+                    email: deleteField(),
+                    gender: deleteField(),
+                    phone: deleteField(),
+                    securityNumber: deleteField(),
+                  });
+                  alert("User banned");
+             }},
+            { text: 'No' ,onPress : () =>{ console.log("no banning") }}
+        ]);
+    }
+
 
     return (
         <View style={styles.container}>
@@ -80,7 +98,7 @@ const AccountScreen = ({ navigation }) => {
                     <Text style={styles.txt}>Name : </Text>
                     <Text
                         style={{
-                            fontSize: 28, fontStyle: 'italic', color: '#1B1A17', fontWeight: 'normal',
+                            fontSize: 28, fontStyle: 'italic', color: 'rgb(0,0,0)', fontWeight: 'normal',
                             fontFamily: 'serif', marginLeft: 20, marginTop: 5,
                         }}> {N} </Text>
                 </View>
@@ -91,7 +109,7 @@ const AccountScreen = ({ navigation }) => {
                     <Text style={styles.txt}>Email : </Text>
                     <Text
                         style={{
-                            fontSize: 28, fontStyle: 'italic', color: '#1B1A17', fontWeight: 'normal',
+                            fontSize: 28, fontStyle: 'italic', color: 'rgb(0,0,0)', fontWeight: 'normal',
                             fontFamily: 'serif', marginLeft: 20, marginTop: 5,
                         }}>{E} </Text>
                 </View>
@@ -102,7 +120,7 @@ const AccountScreen = ({ navigation }) => {
                     <Text style={styles.txt}>Phone : </Text>
                     <Text
                         style={{
-                            fontSize: 28, fontStyle: 'italic', color: '#1B1A17', fontWeight: 'normal',
+                            fontSize: 28, fontStyle: 'italic', color: 'rgb(0,0,0)', fontWeight: 'normal',
                             fontFamily: 'serif', marginLeft: 20, marginTop: 5,
                         }}>{P} </Text>
                 </View>
@@ -113,7 +131,7 @@ const AccountScreen = ({ navigation }) => {
                     <Text style={styles.txt}>Accounbt number : </Text>
                     <Text
                         style={{
-                            fontSize: 28, fontStyle: 'italic', color: '#1B1A17', fontWeight: 'normal',
+                            fontSize: 28, fontStyle: 'italic', color: 'rgb(0,0,0)', fontWeight: 'normal',
                             fontFamily: 'serif', marginLeft: 20, marginTop: 5,
                         }}>{AccN} </Text>
                 </View>
@@ -124,7 +142,7 @@ const AccountScreen = ({ navigation }) => {
                     <Text style={styles.txt}>Gender : </Text>
                     <Text
                         style={{
-                            fontSize: 28, fontStyle: 'italic', color: '#1B1A17', fontWeight: 'normal',
+                            fontSize: 28, fontStyle: 'italic', color: 'rgb(0,0,0)', fontWeight: 'normal',
                             fontFamily: 'serif', marginLeft: 20, marginTop: 5,
                         }}>{G} </Text>
                 </View>
@@ -135,7 +153,7 @@ const AccountScreen = ({ navigation }) => {
                     <Text style={styles.txt}>Address : </Text>
                     <Text
                         style={{
-                            fontSize: 28, fontStyle: 'italic', color: '#1B1A17', fontWeight: 'normal',
+                            fontSize: 28, fontStyle: 'italic', color: 'rgb(0,0,0)', fontWeight: 'normal',
                             fontFamily: 'serif', marginLeft: 20, marginTop: 5,
                         }}>{Addr} </Text>
                 </View>
@@ -149,7 +167,7 @@ const AccountScreen = ({ navigation }) => {
 
                     <Text
                         style={{
-                            fontSize: 50, fontStyle: 'italic', color: '#F0A500', fontWeight: 'normal',
+                            fontSize: 50, fontStyle: 'italic', color: 'rgb(0,0,0)', fontWeight: 'normal',
                             fontFamily: 'serif', marginLeft: 15, marginTop: 5,
                         }}>
                         {Bal} $</Text>
@@ -157,13 +175,25 @@ const AccountScreen = ({ navigation }) => {
 
             </ScrollView>
 
-            {/* <TouchableOpacity
-                style={{
-                    marginLeft: 20, marginTop: 5, marginBottom: 50,
-                }}
-                onPress={GetData}>
-                <Text>GetData</Text>
-            </TouchableOpacity> */}
+            <View style={{
+                flexDirection: 'row', marginBottom: 40,
+            }}
+            >
+                <TouchableOpacity
+                    style={styles.EditButton}
+                    onPress={ () =>  navigation.navigate("EditUserontrol")}
+                >
+                    <Text style={styles.EditButtonText} >Edit</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                    style={styles.EditButton}
+                    onPress={BanUser}
+                >
+                    <Text style={styles.EditButtonText}>Ban</Text>
+                </TouchableOpacity>
+
+            </View>
 
 
         </View>
@@ -176,6 +206,7 @@ const styles = StyleSheet.create({
         backgroundColor: "rgba(0,0,0,0)",
         alignItems: "flex-start",
         justifyContent: "flex-start",
+        marginTop: 40,
     },
     inputview1: {
 
@@ -205,7 +236,7 @@ const styles = StyleSheet.create({
         marginTop: 40,
         borderRadius: 40,
         borderWidth: 0.5,
-        borderColor: '#F0A500',
+        borderColor: 'black',
         width: '90%',
         marginHorizontal: '5%'
     },
@@ -213,9 +244,9 @@ const styles = StyleSheet.create({
         marginTop: 50,
         width: '90%',
         height: 110,
-        backgroundColor: '#E6D5B8',
-        marginHorizontal: '5%',
+       marginHorizontal: '5%',
         borderRadius: 10,
+        backgroundColor : '#E45826'
     },
     FieldTXT: {
         fontSize: 20,
@@ -231,7 +262,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     txt: {
-        fontSize: 15,
+        fontSize: 18,
         fontStyle: 'italic',
         color: '#F0A500',
         fontWeight: 'normal',
@@ -255,7 +286,22 @@ const styles = StyleSheet.create({
         fontSize: 25,
         marginBottom: 10,
     },
+
+    EditButton: {
+        marginHorizontal: 38,
+        backgroundColor: '#1B1A17',
+        height: 70,
+        width: 120,
+        borderRadius: 25,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    EditButtonText: {
+        fontSize:25,
+        color: '#E6D5B8'
+    },
 });
 
 
-export default AccountScreen;
+export default ItemControl;
+

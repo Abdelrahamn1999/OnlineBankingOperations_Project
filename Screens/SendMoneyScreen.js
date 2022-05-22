@@ -4,8 +4,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import { Image, View, Text, StyleSheet, TouchableOpacity, TextInput, Alert } from 'react-native';
 import { auth, db } from "../firebase";
-import { doc, getDoc, updateDoc} from 'firebase/firestore/lite';
-import { collection, query, where, getDocs,writeBatch } from 'firebase/firestore/lite';
+import { doc, getDoc, updateDoc, setDoc } from 'firebase/firestore/lite';
+import { collection, query, where, getDocs, addDoc } from 'firebase/firestore/lite';
 
 import { StatusBar } from 'expo-status-bar';
 
@@ -15,7 +15,6 @@ import { useState } from "react";
 // create a component
 const SendMoneyScreen = ({ navigation }) => {
 
-    const batch = writeBatch(db);
 
     const [accNumber, setaccNumber] = useState("");
     const [accNumberValid, setaccNumberValid] = useState("0000");
@@ -23,17 +22,28 @@ const SendMoneyScreen = ({ navigation }) => {
     const [securityNumber, setsecurityNumber] = useState("");
     const [securityNumberValid, setsecurityNumberValid] = useState("0000");
 
+    const [email, setemail] = useState("");
+    const [reciveremail, setreciveremail] = useState("0000");
+
     const [reciverAccountNumber, setreciverAccountNumber] = useState("000");
     const [reciverAccountNumberValid, setreciverAccountNumberValid] = useState("0000");
 
     const [amount, setamount] = useState("0000");
     const [Bal, setBal] = useState("000");
     const [reciverBal, setreciverBal] = useState("000");
-const [reciverID ,setreciverID]=useState("");
+    const [reciverID, setreciverID] = useState("");
+
+    const [AdminID, setAdminID] = useState("");
 
 
-
-
+    let date = new Date().getDate();
+    let month = new Date().getMonth() + 1;
+    let year = new Date().getFullYear();
+    let hour = new Date().getHours();
+    let minute = new Date().getMinutes();
+    let second = new Date().getSeconds();
+    let transactionName = "SendingMoney";
+    //console.log(date, " /", month, " / ", year, "  ", hour, " : ", minute, " : ", second)
 
 
     let ID = auth.currentUser?.uid;
@@ -42,6 +52,7 @@ const [reciverID ,setreciverID]=useState("");
         setaccNumber(doc.get('accountNumber'));
         setsecurityNumber(doc.get('securityNumber'));
         setBal(doc.get('balance'));
+        setemail(doc.get('email'));
     }).catch(() => console("NO doc"))
 
 
@@ -52,6 +63,17 @@ const [reciverID ,setreciverID]=useState("");
             setreciverAccountNumber(doc.get('accountNumber'));
             setreciverBal(doc.get('balance'));
             setreciverID(doc.id)
+            setreciveremail(doc.get('email'));
+            console.log(reciverAccountNumber)
+        });
+    }).catch(() => console("Invaliiiiid"))
+
+
+    const userRef1 = collection(db, "Admin");
+    const q1 = query(userRef1, where("name", "==", "Admin"));
+    getDocs(q1).then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            setAdminID(doc.id)
         });
     }).catch(() => console("Invaliiiiid"))
 
@@ -62,13 +84,13 @@ const [reciverID ,setreciverID]=useState("");
 
 
     const Verfication = () => {
-        if (accNumberValid != accNumber) {
-            Alert.alert('Warning', "Invalid account number", [
-                { text: 'ok' }
-            ]);
-        }
+        // if (accNumberValid != accNumber) {
+        //     Alert.alert('Warning', "Invalid account number", [
+        //         { text: 'ok' }
+        //     ]);
+        // }
 
-        else if (reciverAccountNumberValid != reciverAccountNumber) {
+        if (reciverAccountNumberValid != reciverAccountNumber) {
             Alert.alert('Warning', "Wrong reciver account number", [
                 { text: 'ok' }
             ]);
@@ -80,7 +102,7 @@ const [reciverID ,setreciverID]=useState("");
             ]);
         }
 
-        else if (parseInt(amount) >= 50000 && parseInt(amount) < 0 ) {
+        else if (parseInt(amount) >= 50000 && parseInt(amount) < 0) {
             Alert.alert('Warning : wrong amount', "The amount should be betwwen 1 to 50k", [
                 { text: 'ok' }
             ]);
@@ -105,8 +127,19 @@ const [reciverID ,setreciverID]=useState("");
                 balance: (parseInt(reciverBal) + parseInt(amount)).toString()
             });
 
+           
+            addDoc(collection(db, `Transaction/${AdminID}/Details`), {
+                Date: date + "/" + month + "/ " + year,
+                Clock: hour + ":" + minute + ": " + second,
+                TransactionName: transactionName,
+                To: reciveremail,
+                Amount: amount,
+                From: email,
+                ToAccountNumber: reciverAccountNumber,
+                FromAccountNumber: accNumber,
+            });
 
-           // console.log( typeof(reciverBal)  ,reciverBal , typeof(parseInt(reciverBal))  , amount , typeof(parseInt(amount)) );
+            // console.log( typeof(reciverBal)  ,reciverBal , typeof(parseInt(reciverBal))  , amount , typeof(parseInt(amount)) );
             navigation.replace("NavigationBAr");
         }
 
@@ -123,20 +156,28 @@ const [reciverID ,setreciverID]=useState("");
                 style={styles.Imagebackgrounds}
             />
 
+            <View style={styles.inputview0}>
+            <Text style={styles.txt}>Accounbt number : </Text>
+                 <Text
+                    style={{
+                        fontSize: 28, fontStyle: 'italic', color: '#000', fontWeight: 'normal',
+                        fontFamily: 'serif', marginLeft: 10, marginTop: 5,
+                    }}>{accNumber} </Text>
+            </View>
+
             <View style={styles.inputview1}>
                 <TextInput
                     style={styles.textinput}
-                    placeholder="Enter Your Account number"
+                    placeholder="Enter the reciver Account number"
                     placeholderTextColor="rgba(0,0,0,0.3)"
                     type="numeric"
                     keyboardType='numeric'
                     onChangeText={(text) => {
-                        setaccNumberValid(text);
+                        setreciverAccountNumberValid(text);
                     }}
+                // value = {reciverAccountNumberValid}
                 />
             </View>
-
-
 
             <View style={styles.inputview1}>
                 <TextInput
@@ -151,23 +192,10 @@ const [reciverID ,setreciverID]=useState("");
                 />
             </View>
             <View style={{ flexDirection: 'row', marginLeft: 20, marginTop: 15, }} >
-                <Text style={{ fontSize: 20, fontWeight: 'bold' }}> Hint : </Text>
-                <Text style={{ fontSize: 15, marginTop: 5, }}>  The amount should not exceed $100k </Text>
+                <Text style={{ fontSize: 20, fontWeight: 'bold' ,color:'#E45826'}}> Hint : </Text>
+                <Text style={{ fontSize: 15, marginTop: 5,color:'#E45826' }}>  The amount should not exceed $100k </Text>
             </View>
 
-            <View style={styles.inputview1}>
-                <TextInput
-                    style={styles.textinput}
-                    placeholder="Enter the reciver Account number"
-                    placeholderTextColor="rgba(0,0,0,0.3)"
-                    type="numeric"
-                    keyboardType='numeric'
-                    onChangeText={(text) => {
-                        setreciverAccountNumberValid(text);
-                    }}
-
-                />
-            </View>
 
 
             <View style={{ flexDirection: 'row', justifyContent: 'flex-start', marginTop: 60, }}>
@@ -188,8 +216,9 @@ const [reciverID ,setreciverID]=useState("");
                     style={styles.btn}
                     onPress={Verfication}>
                     <Text style={styles.btnText} > Send </Text>
-                    <Ionicons name={'send-outline'} size={20} color={'white'} />
-                </TouchableOpacity></View>
+                    <Ionicons name={'send-outline'} size={20} color={'#E6D5B8'} />
+                </TouchableOpacity>
+            </View>
 
             <View style={styles.balance_part}>
                 <Text
@@ -217,6 +246,18 @@ const styles = StyleSheet.create({
         justifyContent: "flex-start",
         marginTop: 60,
     },
+    inputview0: {
+        flexDirection : 'row',
+        marginHorizontal: '10%',
+        marginVertical: 40,
+        marginBottom: 0,
+        height: 60,
+        width: '80%',
+        justifyContent: 'center',
+        alignItems: 'center',
+       
+         backgroundColor : '#E6D5B8'
+    },
     inputview1: {
         backgroundColor: 'rgba(0,0,0,0)',
         marginHorizontal: '10%',
@@ -227,7 +268,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderBottomWidth: 3,
-        borderColor: 'black',
+        borderColor: '#F0A500',
     },
 
     inputview2: {
@@ -239,7 +280,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderRadius: 40,
         borderWidth: 3,
-        borderColor: 'black',
+        borderColor: '#F0A500',
     },
 
     textinput: {
@@ -256,7 +297,7 @@ const styles = StyleSheet.create({
     },
 
     btnText: {
-        color: 'white',
+        color: '#E6D5B8',
         fontSize: 18,
         fontFamily: 'sans-serif',
         textAlign: 'center',
@@ -267,7 +308,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         marginTop: 0,
         marginLeft: 10,
-        backgroundColor: 'black',
+        backgroundColor: '#1B1A17',
         height: 58,
         width: '35%',
         justifyContent: 'center',
@@ -286,7 +327,7 @@ const styles = StyleSheet.create({
         marginTop: 30,
         width: '80%',
         height: 60,
-        backgroundColor: 'rgba(0,0,0,0.15)',
+        backgroundColor: '#E6D5B8',
         marginHorizontal: '10%',
         borderRadius: 10,
 
@@ -295,7 +336,7 @@ const styles = StyleSheet.create({
     txt: {
         fontSize: 20,
         fontStyle: 'italic',
-        color: 'rgba(0,0,0,0.6)',
+        color: '#F0A500',
         fontWeight: 'normal',
         fontFamily: 'serif',
         marginLeft: 10,

@@ -4,6 +4,7 @@ import { View, Text, StyleSheet, Image, ScrollView ,TouchableOpacity} from 'reac
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { color } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
 
 
 let p1= '01141860966';
@@ -19,7 +20,7 @@ const DetailsScreen = ({navigation}) => {
             <StatusBar translucent backgroundColor='rgba(0,0,0,0)' />
             <ScrollView>
                 <View style={ { marginTop : 8 , marginHorizontal : 70,} }>
-                    <Text style={ {paddingLeft : '20%', paddingBottom : 10, fontSize : 35 , fontWeight : 'bold' , borderBottomWidth : 1 , borderBottomColor : 'black' } } >About US</Text>
+                    <Text style={ {paddingLeft : '20%', paddingBottom : 10, fontSize : 35 , fontWeight : 'bold' , borderBottomWidth : 1 , borderBottomColor : 'black' , color:'#F0A500' } } >About US</Text>
                 </View>
                 <View style={{ marginTop: 40, }}>
                     <Image source={require('../assets/digital-banking.png')}
@@ -44,28 +45,28 @@ const DetailsScreen = ({navigation}) => {
 
 
                     <View style={ { marginTop : 25 , marginHorizontal : 70,} }>
-                    <Text style={ {paddingLeft : '18%', paddingBottom : 10, fontSize : 35 , fontWeight : 'bold' , borderBottomWidth : 1 , borderBottomColor : 'black' } } >Contact US</Text>
+                    <Text style={ {paddingLeft : '18%', paddingBottom : 10, fontSize : 35 , fontWeight : 'bold' , borderBottomWidth : 1 , borderBottomColor : 'black' ,color:'#F0A500'} } >Contact US</Text>
                 </View>
                 <View>
                 <View style={{ marginTop: 40, marginLeft:20, flexDirection :'row' }}>
                  <Ionicons name={'call-outline'} size={25} color={'black'} />
-                 <Text style={ {paddingLeft : 5 , fontSize : 18,} }>Phone :   {p1}  , {'\n'}{'\t\t\t\t\t\t\t\t\t\t'}  {p2}</Text>
+                 <Text style={ {paddingLeft : 5 , fontSize : 18, color :'#E45826'} }>Phone :   {p1}  , {'\n'}{'\t\t\t\t\t\t\t\t\t\t'}  {p2}</Text>
                 </View>
 
                 <View style={{ marginTop: 20, marginLeft:20, flexDirection :'row' }}>
                  <Ionicons name={'mail-outline'} size={25} color={'black'} />
-                 <Text style={ {paddingLeft : 5 , fontSize : 18,} }>Email :  {e1}</Text>
+                 <Text style={ {paddingLeft : 5 , fontSize : 18,color:'#E45826'} }>Email :  {e1}</Text>
                 </View>
 
                 <View style={{ marginTop: 30, marginLeft:20, flexDirection :'row' }}>
                  <Ionicons name={'location-outline'} size={25} color={'black'} />
-                 <Text style={ {paddingLeft : 5 , fontSize : 18,} }>Location :  {a1}</Text>
+                 <Text style={ {paddingLeft : 5 , fontSize : 18,color:'#E45826'} }>Location :  {a1}</Text>
 
-                 <View style={{width : '33%' ,height:'91%' , marginLeft : 12  ,borderWidth : 2,borderRadius:5}}>
+                 <View style={{width : '33%' ,height:'91%' , marginLeft : 12  ,borderWidth : 2,borderRadius:5 ,backgroundColor:'#EC994B'}}>
                 <TouchableOpacity style={{flexDirection : 'row-reverse'}}
                      onPress={ () => navigation.navigate("MapScreen")}>
                           <Ionicons name={'chevron-forward-outline'} size={20} color={'black'} />
-                    <Text >Show Location</Text>
+                    <Text style={ {color:'#F1EEE9'} }>Show Location</Text>
                 </TouchableOpacity>
 
             </View>
@@ -94,12 +95,12 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgba(0,0,0,0)',
+        backgroundColor: '#EEE',
     },
 
     AboutUStitle: {
         marginTop: 2,
-        color: 'rgba(0,0,0,1)',
+        color: '#1B1A17',
         fontSize: 30,
         fontFamily: 'serif',
         fontStyle: 'italic',
@@ -109,15 +110,16 @@ const styles = StyleSheet.create({
     AboutUSparagraph1: {
         marginTop: 35,
         marginHorizontal: 30,
-        color: 'rgba(0,0,0,0.7)',
+        color: '#E45826',
         fontSize: 20,
         fontFamily: 'sans-serif',
+        fontWeight: 'bold',
         textAlign: 'center',
     },
     AboutUSparagraph2: {
         marginTop: 10,
         marginHorizontal: 15,
-        color: 'rgba(0,0,0,0.5)',
+        color: '#E45826',
         fontSize: 18,
         fontFamily: 'sans-serif-condensed',
         textAlign: 'center',

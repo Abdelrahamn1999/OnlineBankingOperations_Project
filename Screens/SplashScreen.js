@@ -61,11 +61,11 @@ export default class SplashScreen extends Component {
             <Text style={styles.btnText} > FAQ's</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={styles.btn}
             onPress={() => this.props.navigation.navigate("SettingScreen")}>
             <Text style={styles.btnText} > Settings</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
         </View>
         {
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.002)',
+    backgroundColor: 'white',
 
   },
 
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
 
   },
   btnText: {
-    color: 'black',
+    color: '#E45826',
     fontSize: 18,
     fontFamily: 'sans-serif',
     textAlign: 'center',
@@ -117,14 +117,14 @@ const styles = StyleSheet.create({
   btn: {
     backgroundColor: 'rgba(0,0,0,0)',
     marginHorizontal: 20,
-    marginBottom: 40,
+    marginBottom: 70,
     height: 60,
     width: 300,
     justifyContent: 'flex-start',
     alignItems: 'center',
     borderRadius: 40,
     borderBottomWidth: 3,
-    borderBottomColor: 'black',
+    borderBottomColor: '#F0A500',
 
 
   },

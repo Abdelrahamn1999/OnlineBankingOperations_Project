@@ -1,42 +1,39 @@
-import { useState ,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { StyleSheet, Text, TouchableOpacity, View, TextInput, } from "react-native";
 import { StatusBar } from 'expo-status-bar';
-import { auth } from "../firebase";
-import { signInWithEmailAndPassword ,onAuthStateChanged ,sendPasswordResetEmail  } from "firebase/auth";
+import { auth, db } from "../firebase";
+import { onAuthStateChanged, createUserWithEmailAndPassword, updateDoc, doc } from "firebase/auth";
 
 
 
 
-const LoginScreen = ( {navigation} ) => {
+const AddingUser = ({ navigation }) => {
     const [eamil, setemail] = useState("");
     const [password, setpassword] = useState("");
-   
+    const [userID, setuserID] = useState("");
 
 
 
-    const handleSignIn = () => {
-       signInWithEmailAndPassword(auth ,eamil, password)
-            .then( (userCredential) => {
-                const user = userCredential.user;
+
+
+    const handleSignUp = () => {
+        createUserWithEmailAndPassword(auth, eamil, password)
+            .then((userCredential) => {
+                const user = userCredential.user.uid;
+                console.log(user);
+                setuserID(user);
+                console.log(auth.currentUser.uid);
             })
-            .catch( () => alert("Invalid email or password"))
+            .catch(() => alert("Invalid email or password"))
     }
 
-
-    // const handlepasswordforgotten = (email) => {
-    //     sendPasswordResetEmail(auth ,email);
-    //     navigation.navigate("ForgetPasswordScreen")
-    //  }
-     
-
     useEffect(() => {
-      onAuthStateChanged(auth ,user => {
+        onAuthStateChanged(auth, user => {
             if (user) {
-                if(user.email=="abdo112ashraf@gmail.com") {
-                    navigation.navigate("NavigationBArAdmin")
-                }else{
-                    navigation.navigate("NavigationBAr")
-                }
+                updateDoc(doc(db, "Admin", "sf2zL5gZmUY8np87FXhYgyWKQ1q2"), {
+                    AddingUser: auth.currentUser.uid,
+                });
+                navigation.navigate("AddingInfo");
             }
         })
 
@@ -50,7 +47,7 @@ const LoginScreen = ( {navigation} ) => {
             <View style={styles.inputview1}>
                 <TextInput
                     style={styles.textinput}
-                    placeholder="Enter Your Email"
+                    placeholder="Enter Email"
                     placeholderTextColor="rgba(0,0,0,0.5)"
                     type="Text"
                     onChangeText={(text) => setemail(text)}
@@ -61,7 +58,7 @@ const LoginScreen = ( {navigation} ) => {
             <View style={styles.inputview1}>
                 <TextInput
                     style={styles.textinput}
-                    placeholder="Enter Your Password"
+                    placeholder="Enter Password"
                     placeholderTextColor="rgba(0,0,0,0.5)"
                     type="password"
                     secureTextEntry={true}
@@ -71,17 +68,12 @@ const LoginScreen = ( {navigation} ) => {
             </View>
 
 
-            <TouchableOpacity
-                     onPress={ () => navigation.navigate("ForgetPasswordScreen")}>
-                     <Text style={styles.forgetpassowrd}>Forget my password ?! </Text>
-            </TouchableOpacity>
-
             <View style={{ flex: 1, justifyContent: 'flex-start', marginHorizontal: '15%', marginTop: 80 }}>
-       <TouchableOpacity
-            onPress={handleSignIn}
-            style={styles.btn}>
-            <Text style={styles.btnText} >Login</Text> 
-        </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={handleSignUp}
+                    style={styles.btn}>
+                    <Text style={styles.btnText} >Register</Text>
+                </TouchableOpacity>
             </View>
         </View>
     );
@@ -90,7 +82,7 @@ const LoginScreen = ( {navigation} ) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#F1EEE9",
+        backgroundColor: "rgba(0,0,0,0)",
         alignItems: "flex-start",
         justifyContent: "flex-start",
         marginTop: 150,
@@ -105,7 +97,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderRadius: 40,
         borderWidth: 3,
-        borderColor: '#EC994B',
+        borderColor: 'black',
     },
     inputview2: {
         backgroundColor: 'rgba(0,0,0,0)',
@@ -117,7 +109,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderRadius: 40,
         borderWidth: 3,
-        borderColor: '#EC994B',
+        borderColor: 'black',
     },
     textinput: {
         fontFamily: 'sans-serif',
@@ -136,7 +128,7 @@ const styles = StyleSheet.create({
         margin: 10,
     },
     btnText: {
-        color: '#E6D5B8',
+        color: 'white',
         fontSize: 25,
         fontFamily: 'sans-serif',
         textAlign: 'center',
@@ -145,7 +137,7 @@ const styles = StyleSheet.create({
 
     },
     btn: {
-        backgroundColor: '#1B1A17',
+        backgroundColor: 'black',
         height: 70,
         width: 280,
         justifyContent: 'center',
@@ -157,15 +149,15 @@ const styles = StyleSheet.create({
     forgetpassowrd: {
         marginLeft: 15,
         fontSize: 20,
-        color: '#E45826',
+        color: 'black',
         fontFamily: 'sans-serif',
         textAlign: 'center',
         fontStyle: 'italic',
         borderBottomWidth: 1.5,
-        borderBottomColor: '#E45826',
+        borderBottomColor: 'black',
         paddingBottom: 3,
     },
 });
 
 
-export default LoginScreen;
+export default AddingUser;

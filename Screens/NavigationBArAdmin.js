@@ -2,7 +2,7 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 // Screens
-import HomeScreen from './HomeScreen';
+import HomeScreenAdmin from './HomeScreenAdmin';
 import DetailsScreen from './DetailsScreen';
 import SettingScreen from './SettingScreen';
 import AccountScreen from './AccountScreen';
@@ -10,10 +10,10 @@ import TransactionsScreen from './TranactionsScreen';
 import { createStackNavigator } from '@react-navigation/stack';
 
 //Screen names
-const homeName = "Home";
-const detailsName = "Details";
-// const transactionName = "Transactions";
-const accountname = "Acocunt";
+const homeName = "HomeAdmin";
+const detailsName = "DetailsAdmin";
+const transactionName = "TransactionsAdmin";
+const accountname = "AcocuntAdmin";
 
 
 const Tab = createBottomTabNavigator();
@@ -23,19 +23,19 @@ function HomeScreenStack() {
   return (
     <Stack.Navigator
       screenOptions={{ headerShown: false }}>
-      <Stack.Screen name='HomeScreen' component={HomeScreen} />
+      <Stack.Screen name='HomeScreenAdmin' component={HomeScreenAdmin} />
     </Stack.Navigator>
   );
 }
 
-function AccountScreenStack() {
-  return (
-    <Stack.Navigator
-      screenOptions={{ headerShown: false }}>
-      <Stack.Screen name='AccountScreen' component={AccountScreen} />
-    </Stack.Navigator>
-  );
-}
+// function AccountScreenStack() {
+//   return (
+//     <Stack.Navigator
+//       screenOptions={{ headerShown: false }}>
+//       <Stack.Screen name='AccountScreen' component={AccountScreen} />
+//     </Stack.Navigator>
+//   );
+// }
 
 function DetailsScreenStack() {
   return (
@@ -46,17 +46,17 @@ function DetailsScreenStack() {
   );
 }
 
-// function TransactionsScreenStack() {
-//   return (
-//     <Stack.Navigator
-//       screenOptions={{ headerShown: false }}>
-//       <Stack.Screen name='TransactionsScreen' component={TransactionsScreen} />
-//     </Stack.Navigator>
-//   );
-// }
+function TransactionsScreenStack() {
+  return (
+    <Stack.Navigator
+      screenOptions={{ headerShown: false }}>
+      <Stack.Screen name='TransactionsScreen' component={TransactionsScreen} />
+    </Stack.Navigator>
+  );
+}
 
 
-function NavigationBAr() {
+function NavigationBArAdmin() {
   return (
     <Tab.Navigator
       initialRouteName={homeName}
@@ -85,11 +85,11 @@ function NavigationBAr() {
             } else if (rn === detailsName) {
               iconName = focused ? 'alert-circle' : 'alert-circle-outline';
 
-            // } else if (rn === transactionName) {
-            //   iconName = focused ? 'settings' : 'settings-outline';
+            } else if (rn === transactionName) {
+              iconName = focused ? 'settings' : 'settings-outline';
 
-            } else if (rn === accountname) {
-              iconName = focused ? 'person' : 'person-outline';
+            // } else if (rn === accountname) {
+            //   iconName = focused ? 'person' : 'person-outline';
 
             }
             // You can return any component that you like here!
@@ -101,61 +101,7 @@ function NavigationBAr() {
         }
       />
      
-      <Tab.Screen name={accountname} component={AccountScreenStack}
-        options={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
-            let rn = route.name;
-
-            if (rn === homeName) {
-              iconName = focused ? 'home' : 'home-outline';
-
-            } else if (rn === detailsName) {
-              iconName = focused ? 'alert-circle' : 'alert-circle-outline';
-
-            // } else if (rn === transactionName) {
-            //   iconName = focused ? 'settings' : 'settings-outline';
-
-            } else if (rn === accountname) {
-              iconName = focused ? 'person' : 'person-outline';
-
-            }
-            // You can return any component that you like here!
-            return <Ionicons name={iconName} size={size} color={color} />;
-          }
-
-
-        })
-        } />
-
-<Tab.Screen name={detailsName} component={DetailsScreenStack}
-        options={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
-            let rn = route.name;
-
-            if (rn === homeName) {
-              iconName = focused ? 'home' : 'home-outline';
-
-            } else if (rn === detailsName) {
-              iconName = focused ? 'alert-circle' : 'alert-circle-outline';
-
-            // } else if (rn === transactionName) {
-            //   iconName = focused ? 'settings' : 'settings-outline';
-
-            } else if (rn === accountname) {
-              iconName = focused ? 'person' : 'person-outline';
-
-            }
-            // You can return any component that you like here!
-            return <Ionicons name={iconName} size={size} color={color} />;
-          }
-
-
-        })
-        } />
-        
-      {/* <Tab.Screen name={transactionName} component={TransactionsScreenStack}
+      {/* <Tab.Screen name={accountname} component={AccountScreenStack}
         options={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
@@ -182,8 +128,62 @@ function NavigationBAr() {
         })
         } /> */}
 
+<Tab.Screen name={detailsName} component={DetailsScreenStack}
+        options={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName;
+            let rn = route.name;
+
+            if (rn === homeName) {
+              iconName = focused ? 'home' : 'home-outline';
+
+            } else if (rn === detailsName) {
+              iconName = focused ? 'alert-circle' : 'alert-circle-outline';
+
+            } else if (rn === transactionName) {
+              iconName = focused ? 'settings' : 'settings-outline';
+
+            // } else if (rn === accountname) {
+            //   iconName = focused ? 'person' : 'person-outline';
+
+            }
+            // You can return any component that you like here!
+            return <Ionicons name={iconName} size={size} color={color} />;
+          }
+
+
+        })
+        } />
+        
+      <Tab.Screen name={transactionName} component={TransactionsScreenStack}
+        options={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName;
+            let rn = route.name;
+
+            if (rn === homeName) {
+              iconName = focused ? 'home' : 'home-outline';
+
+            } else if (rn === detailsName) {
+              iconName = focused ? 'alert-circle' : 'alert-circle-outline';
+
+            } else if (rn === transactionName) {
+              iconName = focused ? 'settings' : 'settings-outline';
+
+            // } else if (rn === accountname) {
+            //   iconName = focused ? 'person' : 'person-outline';
+
+            }
+            // You can return any component that you like here!
+            return <Ionicons name={iconName} size={size} color={color} />;
+          }
+
+
+        })
+        } />
+
     </Tab.Navigator>
   );
 }
 
-export default NavigationBAr;
+export default NavigationBArAdmin;

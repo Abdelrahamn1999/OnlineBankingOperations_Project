@@ -14,7 +14,7 @@ import { collection, query, where, getDocs,writeBatch } from 'firebase/firestore
 const ForgetPasswordScreen = ( {navigation} ) => {
 
     const [accNumber, setaccNumber] = useState("");
-    const [accNumberValid, setaccNumberValid] = useState("0000");
+    const [EmailValid, setEmailValid] = useState("0000");
 
     const [Email, setEmail] = useState("");
 
@@ -24,7 +24,7 @@ const ForgetPasswordScreen = ( {navigation} ) => {
     
 
     const userRef = collection(db, "Users");
-    const q = query(userRef, where("accountNumber", "==", accNumberValid));
+    const q = query(userRef, where("email", "==", EmailValid));
     getDocs(q).then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
             setaccNumber(doc.get('accountNumber'));
@@ -34,14 +34,14 @@ const ForgetPasswordScreen = ( {navigation} ) => {
     }).catch(() => console("Invaliiiiid"))
    
 
-    const handlepasswordforgotten = (email) => {
-        sendPasswordResetEmail(auth ,email);
-     }
+    // const handlepasswordforgotten = (email) => {
+    //     sendPasswordResetEmail(auth ,email);
+    //  }
      
 
      const Verfication = () => {
-        if (accNumberValid != accNumber) {
-            Alert.alert('Warning', "Invalid account number", [
+        if (EmailValid != Email) {
+            Alert.alert('Warning', "Invalid Email", [
                 { text: 'ok' }
             ]);
         }
@@ -79,10 +79,10 @@ const ForgetPasswordScreen = ( {navigation} ) => {
             <View style={styles.inputview1}>
                 <TextInput
                     style={styles.textinput}
-                    placeholder="Enter Your Account number"
+                    placeholder="Enter Your Email"
                     placeholderTextColor="rgba(0,0,0,0.5)"
                     type="Text"
-                    onChangeText={(text) => setaccNumberValid(text)}
+                    onChangeText={(text) => setEmailValid(text)}
                 />
             </View>
 
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderRadius: 40,
         borderWidth: 3,
-        borderColor: 'black',
+        borderColor: '#E45826',
     },
     inputview2: {
         backgroundColor: 'rgba(0,0,0,0)',
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
         margin: 10,
     },
     btnText: {
-        color: 'white',
+        color: '#E6D5B8',
         fontSize: 25,
         fontFamily: 'sans-serif',
         textAlign: 'center',
@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
 
     },
     btn: {
-        backgroundColor: 'black',
+        backgroundColor: '#1B1A17',
         height: 70,
         width: 280,
         justifyContent: 'center',
