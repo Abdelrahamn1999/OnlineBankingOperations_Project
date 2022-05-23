@@ -5,7 +5,8 @@ The main aim is to create an online banking platform accessible from any locatio
 #### Hint : To use this system, the user must have to be registered with the system, the user must have a unique user name and password.
 
 ## Features : 
-### For Users : 1- Sending moeney
+### For Users :
+            1- Sending moeney
 	    2- Requesting moeney
 	    3- Requesting a loan 
 	    4- Requesting an investment certificates
