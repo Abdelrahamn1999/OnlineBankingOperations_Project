@@ -6,7 +6,7 @@ The main aim is to create an online banking platform accessible from any locatio
 
 ## Features : 
 ### For Users :
-            1- Sending moeney
+	    1- Sending moeney
 	    2- Requesting moeney
 	    3- Requesting a loan 
 	    4- Requesting an investment certificates
