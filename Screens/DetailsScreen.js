@@ -4,7 +4,6 @@ import { View, Text, StyleSheet, Image, ScrollView ,TouchableOpacity} from 'reac
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { color } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
 
 
 let p1= '01141860966';

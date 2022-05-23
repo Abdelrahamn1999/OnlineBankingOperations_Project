@@ -17,8 +17,7 @@ const OnboardingScrean = ({ navigation }) => {
       />
       <View  >
         <Text style={styles.title}>Welcome to Banque AMA</Text>
-        <Text style={styles.paragraph}>Software engineering project using React Native and Firebase</Text>
-      </View>
+       </View>
 
       <View style={{ flex: 1, justifyContent: 'flex-end', paddingBottom: 80 }}>
         <TouchableOpacity

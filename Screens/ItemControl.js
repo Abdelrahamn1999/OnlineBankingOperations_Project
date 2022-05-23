@@ -2,9 +2,7 @@ import { useState, useEffect } from "react";
 import { StyleSheet, Text, TouchableOpacity, View, TextInput, Alert, ScrollView } from "react-native";
 import { StatusBar } from 'expo-status-bar';
 import { auth, db } from "../firebase";
-import { sendPasswordResetEmail } from "firebase/auth";
 import { getDoc, doc, getDocs, collection, query, where,deleteField } from 'firebase/firestore/lite';
-import { setDisabled } from "react-native/Libraries/LogBox/Data/LogBoxData";
 
 
 

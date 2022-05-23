@@ -27,7 +27,7 @@ const UsersAdminScreen = ({ navigation }) => {
     getDocs(userRef).then((querySnapshot) => {
       const newElement = [];
       querySnapshot.forEach((doc) => {
-        const { name, accountNumber, address, balance, email, gender, phone, securityNumber } = doc.data()
+        const { name, accountNumber, address, balance, email, gender, phone, securityNumber  } = doc.data()
         newElement.push({
           id: doc.id,
           name,
@@ -37,7 +37,7 @@ const UsersAdminScreen = ({ navigation }) => {
           email,
           gender,
           phone,
-          securityNumber,
+          securityNumber ,
         })
       })
       setDataFilter(newElement);
@@ -73,7 +73,7 @@ const UsersAdminScreen = ({ navigation }) => {
       <View style={styles.inputview2}>
         <TextInput
           style={styles.textinput}
-          placeholder="Search here ..."
+          placeholder="Search user ..."
           placeholderTextColor="rgba(0,0,0,0.3)"
           type="Text"
           onChangeText={(text) => {
@@ -104,15 +104,6 @@ const UsersAdminScreen = ({ navigation }) => {
 
           </TouchableOpacity>
         )} />
-
-      {/* <TouchableOpacity
-        onPress={() => alert("Adding users is invalid")} >
-        <View style={styles.UserViewAdd} >
-
-          <Text style={styles.UserViewText}> Add user</Text>
-        </View>
-
-      </TouchableOpacity> */}
 
 
     </View>

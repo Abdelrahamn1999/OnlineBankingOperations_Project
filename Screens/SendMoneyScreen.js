@@ -6,10 +6,7 @@ import { Image, View, Text, StyleSheet, TouchableOpacity, TextInput, Alert } fro
 import { auth, db } from "../firebase";
 import { doc, getDoc, updateDoc, setDoc } from 'firebase/firestore/lite';
 import { collection, query, where, getDocs, addDoc } from 'firebase/firestore/lite';
-
 import { StatusBar } from 'expo-status-bar';
-
-
 import { useState } from "react";
 
 // create a component

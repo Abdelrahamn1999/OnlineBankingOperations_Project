@@ -79,7 +79,7 @@ const TransactionsScreen = () => {
             <View style={styles.inputview2}>
                 <TextInput
                     style={styles.textinput}
-                    placeholder="Search here ..."
+                    placeholder="Search transaction ..."
                     placeholderTextColor="rgba(0,0,0,0.3)"
                     type="Text"
                     onChangeText={(text) => {

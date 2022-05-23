@@ -55,7 +55,7 @@ const App = () => {
   }
   else if (firstLanch ==true) {
        return (
-          <NavigationContainer >
+      <NavigationContainer >
       <AppStack.Navigator screenOptions={{ headerShown: false }} >
         <AppStack.Screen name='OnboardingScrean' component={OnboardingScrean} />
           <AppStack.Screen name='SplashScreen' component={SplashScreen} />
@@ -86,8 +86,10 @@ const App = () => {
   else {
      return (
       <NavigationContainer >
-        <AppStack.Navigator screenOptions={{ headerShown: false }} >
-        <AppStack.Screen name='LoginScreen' component={LoginScreen} />
+      <AppStack.Navigator screenOptions={{ headerShown: false }} >
+      {/* <AppStack.Screen name='OnboardingScrean' component={OnboardingScrean} />
+          <AppStack.Screen name='SplashScreen' component={SplashScreen} /> */}
+          <AppStack.Screen name='LoginScreen' component={LoginScreen} />
           <AppStack.Screen name='ForgetPasswordScreen' component={ForgetPasswordScreen} />
           <AppStack.Screen name='NavigationBAr' component={NavigationBAr} />
           <AppStack.Screen name='NavigationBArAdmin' component={NavigationBArAdmin} />
@@ -106,9 +108,9 @@ const App = () => {
           <AppStack.Screen name='AddingInfo' component={AddingInfo} /> 
           <AppStack.Screen name='LoanScreen' component={LoanScreen} /> 
           <AppStack.Screen name='SendMoneyScreenAdmin' component={SendMoneyScreenAdmin} /> 
-  
-        </AppStack.Navigator>
-      </NavigationContainer>
+
+      </AppStack.Navigator>
+    </NavigationContainer>
   ); 
 }
 

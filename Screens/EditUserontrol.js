@@ -121,7 +121,7 @@ const EditUserontrol = ({ navigation }) => {
                 phone: Pnew,
                 });
 
-
+                navigation.replace("NavigationBArAdmin");
 
             // console.log( typeof(reciverBal)  ,reciverBal , typeof(parseInt(reciverBal))  , amount , typeof(parseInt(amount)) );
 
@@ -158,7 +158,7 @@ const EditUserontrol = ({ navigation }) => {
                             }}
                         // value = {reciverAccountNumberValid}
                         >
-                            <Text> {N}</Text>
+                            {/* <Text> {N}</Text> */}
                         </TextInput>
                     </View>
                 </View>
@@ -177,7 +177,7 @@ const EditUserontrol = ({ navigation }) => {
                             }}
                         // value = {reciverAccountNumberValid}
                         >
-                            <Text> {AccN}</Text>
+                            {/* <Text> {AccN}</Text> */}
                         </TextInput>
                     </View>
                 </View>
@@ -196,7 +196,7 @@ const EditUserontrol = ({ navigation }) => {
                             }}
                         // value = {reciverAccountNumberValid}
                         >
-                            <Text> {P}</Text>
+                            {/* <Text> {P}</Text> */}
                         </TextInput>
                     </View>
                 </View>
@@ -214,7 +214,7 @@ const EditUserontrol = ({ navigation }) => {
                             }}
                         // value = {reciverAccountNumberValid}
                         >
-                            <Text> {Addr}</Text>
+                            {/* <Text> {Addr}</Text> */}
                         </TextInput>
                     </View>
                 </View>
@@ -233,7 +233,7 @@ const EditUserontrol = ({ navigation }) => {
                             }}
                         // value = {reciverAccountNumberValid}
                         >
-                            <Text> {G}</Text>
+                            {/* <Text> {G}</Text> */}
                         </TextInput>
                     </View>
                 </View>
@@ -252,7 +252,7 @@ const EditUserontrol = ({ navigation }) => {
                             }}
                         // value = {reciverAccountNumberValid}
                         >
-                            <Text> {Bal}</Text>
+                            {/* <Text> {Bal}</Text> */}
                         </TextInput>
                     </View>
 

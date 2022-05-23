@@ -1,9 +1,9 @@
 import { useState ,useEffect } from "react";
 import { StyleSheet, Text, TouchableOpacity, View, TextInput, } from "react-native";
 import { StatusBar } from 'expo-status-bar';
-import { auth } from "../firebase";
+import { auth,db } from "../firebase";
 import { signInWithEmailAndPassword ,onAuthStateChanged ,sendPasswordResetEmail  } from "firebase/auth";
-
+import { collection, query, where, getDocs, addDoc } from 'firebase/firestore/lite';
 
 
 
@@ -11,7 +11,11 @@ const LoginScreen = ( {navigation} ) => {
     const [eamil, setemail] = useState("");
     const [password, setpassword] = useState("");
    
-
+    const [Admin, setAdmin] = useState( {
+        email : "abdo112ashraf@gmail.com",
+        id : " "
+    } );
+    
 
 
     const handleSignIn = () => {
@@ -23,16 +27,19 @@ const LoginScreen = ( {navigation} ) => {
     }
 
 
-    // const handlepasswordforgotten = (email) => {
-    //     sendPasswordResetEmail(auth ,email);
-    //     navigation.navigate("ForgetPasswordScreen")
-    //  }
-     
-
+    const userRef = collection(db, "Admin");
     useEffect(() => {
+        const q = query(userRef, where("name", "==", "Admin"));
+    getDocs(q).then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+           setAdmin( {email : doc.get('email') , id:doc.get('id') } );
+           console.log('-->',Admin.email)
+        });
+    }).catch(() => console("Invaliiiiid"))
+
       onAuthStateChanged(auth ,user => {
             if (user) {
-                if(user.email=="abdo112ashraf@gmail.com") {
+                if(user.email==Admin.email) {
                     navigation.navigate("NavigationBArAdmin")
                 }else{
                     navigation.navigate("NavigationBAr")

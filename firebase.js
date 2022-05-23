@@ -9,12 +9,12 @@ import { getFirestore} from 'firebase/firestore/lite';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyA-me69QFhwy5WfHjK_YnAl26eETwx_vYI",
-  authDomain: "cs303database-b6e24.firebaseapp.com",
-  projectId: "cs303database-b6e24",
-  storageBucket: "cs303database-b6e24.appspot.com",
-  messagingSenderId: "425672955997",
-  appId: "1:425672955997:web:06a412388d191e9d81d5b4"
+  apiKey: "AIzaSyAIwADosxO_bWBLICpIRleRgaZJaH7ge0M",
+  authDomain: "cs303project-52872.firebaseapp.com",
+  projectId: "cs303project-52872",
+  storageBucket: "cs303project-52872.appspot.com",
+  messagingSenderId: "415996572420",
+  appId: "1:415996572420:web:709dbb35cb51da6c759651"
 };
 
 // Initialize Firebase
