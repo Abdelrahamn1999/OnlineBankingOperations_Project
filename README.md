@@ -10,7 +10,8 @@ The main aim is to create an online banking platform accessible from any locatio
 	    3- Requesting a loan 
 	    4- Requesting an investment certificates
 
-### For Admin:  1- User control that have all users of the system (Edit and Ban users)
+### For Admin: 
+	    1- User control that have all users of the system (Edit and Ban users)
 	    2- Sending moeney to users (Approving the Requesting of the loan from users)
 	    3- Approving the Requesting of the investment certificates from users
 	    4- Showing all transaction between users
